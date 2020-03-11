@@ -782,7 +782,7 @@ static void MaxHightset_Frame(int data)
 				switch(MaxHightset_Frame_Foucus.Now_Focus)
 				{
 					case 0:
-						if(Para_read(HIGHT_NOW)<Para_read(HIGHT_DWON))
+						if(Para_read(HIGHT_NOW)<=(Para_read(HIGHT_DWON)+((Para_str.mode_str.unit_mode)?4:10)))
 							Creat_Frame(ERROR_Frame);
 						else
 						{
@@ -851,7 +851,7 @@ static void MinHightset_Frame(int data)
 				switch(MinHightset_Frame_Foucus.Now_Focus)
 				{
 					case 0:
-						if(Para_read(HIGHT_NOW)>Para_read(HIGHT_TOP))
+						if(Para_read(HIGHT_NOW)>=(Para_read(HIGHT_TOP)-((Para_str.mode_str.unit_mode)?4:10)))
 							Creat_Frame(ERROR_Frame);
 						else
 						{

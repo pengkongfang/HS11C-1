@@ -219,7 +219,7 @@ void RunisSet_Frame(int data)
 				}
 				Uart_RunToSet(RunTo_Slect);
 				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_GO ,1);
-				Lcd_Write_Time(READ_BK,1,3);//5s
+				Lcd_Write_Time(READ_BK,1,30);//5s
         break;
 		case WM_TIMEOUT:
 				//Beep_SetNum(1,2,0);
@@ -231,10 +231,6 @@ void RunisSet_Frame(int data)
 				Creat_Frame(Main_Frame);
 				break;
 		case WM_M:
-		case WM_1:
-		case WM_2:
-		case WM_3:
-		case WM_4:
 		case WM_UP: 
 		case WM_DOWN:
 				Lcd_Write_Time(READ_BK,0,0);//5s

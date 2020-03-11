@@ -3,7 +3,7 @@
 
 #include "ddl.h"
 #include "stdbool.h"
-#define MAX_HIGHT  (Para_str.mode_str.unit_mode)?(1800*2.54):(1800)
+#define MAX_HIGHT  (Para_str.mode_str.unit_mode)?(980*2.54):(980)
 #define MIN_HIGHT  (Para_str.mode_str.unit_mode)?(200*2.54):(200)
 
 
