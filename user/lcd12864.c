@@ -548,6 +548,12 @@ void GRAM_ShowChina(unsigned char x,unsigned char y,const unsigned char *p,FONT_
 					(*DrawPoint)(x + j + 8,y + i);
 			}
 			p ++;
+			for(j = 0;j < FontSize - 16;j ++)
+			{
+				if(*p & 0x80 >> j)
+					(*DrawPoint)(x + j + 16,y + i);
+			}
+			p ++;
 		}
 	}
 	else	//非叠加显示
@@ -646,7 +652,7 @@ void GRAM_ShowString(uint16_t x,uint16_t y,const char *pStr,FONT_MODE Font_MODE)
 
             GRAM_ShowChina(x,y,(const unsigned char*)font_Dat,Font_MODE);				//显示汉字
             pStr += 2;
-            if(x > 128 - 16)  //自动换行
+            if(x > 128 - 32)  //自动换行
             {
                 x = 0;
                 y += Font_Size;

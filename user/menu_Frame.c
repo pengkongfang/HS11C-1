@@ -8,7 +8,6 @@
 #include "lcd12864.h"
 static void WillBlockBack_Frame(int data);
 static void Sitchange_Frame(int data);
-static void RemindMode_Frame(int data);
 static void BlockCheck_Frame(int data);
 static void Version_Frame(int data);
 void Resetset_Frame(int data);
@@ -24,7 +23,6 @@ Focus_Srtuct_Typdef Menu_Frame_Foucus;
 const char * Menufont[]=
 {
 	"坐站交替",
-	"提醒方式",
 	"将阻自检",
 	"将阻回退",
 	"遇阻回退",
@@ -42,7 +40,7 @@ extern uint8_t Back_To;
 void Menu_Frame_Init(void)
 {	
 	Menu_Frame_Foucus.Now_Focus=0;
-	Menu_Frame_Foucus.Max_Focus_Num=13;
+	Menu_Frame_Foucus.Max_Focus_Num=12;
 }
 extern uint8_t RunTo_Slect;
 extern const char Page_ARROW_UP[];
@@ -72,7 +70,7 @@ void Menu_Frame(int data)
 				Menu_Frame_Foucus.Now_Focus--;
 				if(Menu_Frame_Foucus.Now_Focus<0)
 				{
-					Menu_Frame_Foucus.Now_Focus=13;
+					Menu_Frame_Foucus.Now_Focus=12;
 				}
         GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
 				break;
@@ -109,42 +107,39 @@ void Menu_Frame(int data)
 						Creat_Frame(Sitchange_Frame);
 						break;
 					case 1:
-						Creat_Frame(RemindMode_Frame);
-						break;
-					case 2:
 						Creat_Frame(BlockCheck_Frame);
 						break;
-					case 3:
+					case 2:
 						Creat_Frame(WillBlockBack_Frame);
 						break;
-					case 4:
+					case 3:
 						Creat_Frame(BlockBack_Frame);
 						break;
-					case 5:
+					case 4:
 						Creat_Frame(KnockGoDown_Frame);
 						break;
-					case 6:
+					case 5:
 						Creat_Frame(AutoBlence_Frame);
 						break;
-					case 7:
+					case 6:
 						Creat_Frame(CheckBlence_Frame);
 						break;
-					case 8:
+					case 7:
 						Creat_Frame(MaxHightset_Frame);
 						break;
-					case 9:
+					case 8:
 						Creat_Frame(MinHightset_Frame);
 						break;
-					case 10:
+					case 9:
 						Creat_Frame(Unitset_Frame);
 						break;
-					case 11:
+					case 10:
 						Creat_Frame(Resetset_Frame);
 						break;
-					case 12:
+					case 11:
 						Creat_Frame(Version_Frame);
 						break;
-					case 13:
+					case 12:
 						Creat_Frame(Main_Frame);
 						break;
 					default:
@@ -239,84 +234,6 @@ static void Sitchange_Frame(int data)
 }
 
 
-const char * RemindModefont[]=
-{
-	"震动",
-	"蜂鸣",
-	"震动蜂鸣",
-	"返回",
-};
-
-Focus_Srtuct_Typdef RemindMode_Frame_Foucus;
-const uint8_t RemindModeList[4]={0,1,2,254};
-void RemindMode_Frame_Init(void)
-{	
-	RemindMode_Frame_Foucus.Now_Focus=0;
-	RemindMode_Frame_Foucus.Max_Focus_Num=3;
-}
-static void RemindMode_Frame(int data)
-{
-		switch (data)
-    {
-			case WM_CREATE: 
-					clear_screen();	
-					RemindMode_Frame_Init();
-				  Set_Focus(&RemindMode_Frame_Foucus);
-					GetLang(&RemindMode_Frame_Foucus,RemindModefont);
-					GRAM_ShowString(MenuX,MenuY,RemindMode_Frame_Foucus.Focus_Data[RemindMode_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
-					if(Para_read(MODE_REMINDER)==RemindModeList[RemindMode_Frame_Foucus.Now_Focus])
-					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
-					}
-					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
-					Lcd_Write_Time(READ_BK,1,3);//5s
-					break;
-			case WM_TIMEOUT:
-					//Beep_SetNum(1,2,0);
-					Lcd_Write_Time(READ_BK,0,0);//5s
-					Creat_Frame(Menu_Frame);
-					break;
-			case WM_UP:
-				Decrease_Focus(&RemindMode_Frame_Foucus);
-				if(Para_read(MODE_REMINDER)==RemindModeList[RemindMode_Frame_Foucus.Now_Focus])
-				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
-				}
-				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
-				break;
-			case WM_DOWN:
-				Increase_Focus(&RemindMode_Frame_Foucus);
-				if(Para_read(MODE_REMINDER)==RemindModeList[RemindMode_Frame_Foucus.Now_Focus])
-				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
-				}
-				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
-				break;
-			case WM_M:
-				switch(RemindMode_Frame_Foucus.Now_Focus)
-				{
-					case 0:
-					case 1:
-					case 2:
-						Para_write(MODE_REMINDER,RemindModeList[RemindMode_Frame_Foucus.Now_Focus],0);
-						break;
-					case 3:
-						Creat_Frame(Menu_Frame);
-						break;
-					default:
-						break;
-				}
-				break;
-			case WM_ARRIVE:
-					Para_write(MODE_REMINDER,RemindModeList[RemindMode_Frame_Foucus.Now_Focus],1);
-					Back_To=1;
-					Creat_Frame(OK_Frame);
-					break;
-   }
-}
 
 
 static void BlockCheck_Frame(int data)
@@ -1082,7 +999,7 @@ void Reseting_Frame(int data)
 					if(Para_str.FirstPower==0xbb)senddelay=1;else senddelay=0;
 					Para_str.FirstPower=0;
 					clear_screen();	
-					GRAM_ShowString(MenuX+15,MenuY,"请长按",FONT16_DEFAULT);
+					GRAM_ShowString(MenuX+15,MenuY,"请长按",FONT32_DEFAULT);
 					GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
 					Lcd_Write_Time(READ_BK,0,0);//5s
 					Lcd_Write_Time(REAL_T,0,0);//5s

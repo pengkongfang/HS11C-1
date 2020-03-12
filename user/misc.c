@@ -634,8 +634,6 @@ void Problem_Frame(int data)
 			case WM_ARRIVE:
 				if(Para_read(RELEASE)==2)
 					Creat_Frame(Reseting_Frame);
-				else
-					Creat_Frame(Main_Frame);
 				break;
     }
 }
