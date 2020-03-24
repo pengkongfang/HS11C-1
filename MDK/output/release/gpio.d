@@ -9,9 +9,10 @@
 .\output\release\gpio.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\assert.h
 .\output\release\gpio.o: ..\..\..\mcu\common\board_stkhc32l13x.h
 .\output\release\gpio.o: ..\..\..\mcu\common\hc32l13x.h
-.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cm0plus.h
-.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cmInstr.h
-.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cmFunc.h
+.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm0plus.h
+.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
+.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h
+.\output\release\gpio.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
 .\output\release\gpio.o: ..\..\..\mcu\common\system_hc32l13x.h
 .\output\release\gpio.o: ..\..\..\driver\inc\sysctrl.h
 .\output\release\gpio.o: ..\..\..\driver\inc\ddl.h

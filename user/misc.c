@@ -20,6 +20,8 @@ void Open_movie(int data)
     case WM_CREATE:
 					Lcd_Write_Time(REAL_T,1,1);//5s
 					Lcd_Write_Time(READ_BK,1,4);//5s
+//					GRAM_ShowString(MenuX+15,MenuY,"请长按",FONT22_DEFAULT);
+//					GRAM_ShowLattice(MenuX+5*16+8,MenuY+4,16,16,(const uint8_t *)Page_DOWN,0);
         break;
 		case WM_TIMEOUT:
 				Lcd_Write_Time(READ_BK,0,0);//5s
@@ -81,14 +83,14 @@ void Main_Frame(int data)
 				temphight/=10;
 				if(temphight<=99)
 				{
-					sprintf(bufd,"%.1f%s",(float)temphight,(Para_read(MODE_UNIT))?"in":"cm");
+					sprintf(bufd,"%.1f",(float)temphight);
 				}
 				else
 				{
-					sprintf(bufd,"%d%s",(int)temphight,(Para_read(MODE_UNIT))?"in":"cm");
-					GRAM_Clear(96,25,101,57);
+					sprintf(bufd,"%d",(int)temphight);
+					//GRAM_Clear(96,25,101,57);
 				}
-				GRAM_ShowString(78,8,bufd,FONT16_DEFAULT);
+				GRAM_ShowString(78,5,bufd,FONT22_DEFAULT);
 				
 				GRAM_ShowLattice(10,10,64,14,(const uint8_t *)Page_LOGO ,1);
 				if(Para_read(TIME_SETREMINDER))
@@ -118,14 +120,14 @@ void Main_Frame(int data)
 				temphight/=10;
 				if(temphight<=99)
 				{
-					sprintf(bufd,"%.1f%s",(float)temphight,(Para_read(MODE_UNIT))?"in":"cm");
+					sprintf(bufd,"%.1f",(float)temphight);
 				}
 				else
 				{
-					sprintf(bufd,"%d%s",(int)temphight,(Para_read(MODE_UNIT))?"in":"cm");
-					GRAM_Clear(96,25,101,57);
+					sprintf(bufd,"%d  ",(int)temphight); 
+					//GRAM_Clear(96,25,101,57);
 				}
-				GRAM_ShowString(78,8,bufd,FONT16_DEFAULT);
+				GRAM_ShowString(78,5,bufd,FONT22_DEFAULT);
 			break;
 		case WM_UP:
 		case WM_DOWN:
@@ -156,6 +158,7 @@ void Main_Frame(int data)
 		case WM_OFF:
 				//Beep_SetNum(1,2,0);
 				Lcd_Write_Time(READ_OFF,0,0);//5s
+				Lcd_Write_Time(REAL_T,0,10);//5s
 				Creat_Frame(Standby_Frame);
         break;
     }
@@ -180,6 +183,7 @@ void dis_Hight(uint8_t x,uint8_t y,float temphight)
 
 void RunisSet_Frame(int data)
 {
+	static bool Delay_send;
 		float temph;
 		switch (data)
     {
@@ -187,29 +191,28 @@ void RunisSet_Frame(int data)
 				//k=(MAX_HIGHT-MIN_HIGHT)/(StartY-EndY);
 				clear_screen();
 				Lcd_Write_Time(REAL_T,0,0);//5s
-				Lcd_Write_Time(READ_BK,1,60);//5s
 				//GRAM_ShowString(50,25,"80.1",FONT32_DEFAULT);
 				switch(RunTo_Slect)
 				{
 					case 1:
 						temph=(float)Para_read(HIGHT_SET1);
 						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M1",FONT16_DEFAULT);
+						GRAM_ShowString(80,8,"M1",FONT22_DEFAULT);
 						break;
 					case 2:
 						temph=(float)Para_read(HIGHT_SET2);
 						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M2",FONT16_DEFAULT);
+						GRAM_ShowString(80,8,"M2",FONT22_DEFAULT);
 						break;
 					case 3:
 						temph=(float)Para_read(HIGHT_SET3);
 						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M3",FONT16_DEFAULT);
+						GRAM_ShowString(80,8,"M3",FONT22_DEFAULT);
 						break;
 					case 4:
 						temph=(float)Para_read(HIGHT_SET4);
 						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M4",FONT16_DEFAULT);
+						GRAM_ShowString(80,8,"M4",FONT22_DEFAULT);
 						break;
 				}
 				if(temph>Para_read(HIGHT_TOP)||temph<Para_read(HIGHT_DWON))
@@ -217,14 +220,24 @@ void RunisSet_Frame(int data)
 					Creat_Frame(SetOverError_Frame);
 					return;
 				}
-				Uart_RunToSet(RunTo_Slect);
+				
 				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_GO ,1);
-				Lcd_Write_Time(READ_BK,1,30);//5s
+				Lcd_Write_Time(READ_BK,1,1);//5s
+				Delay_send=true;
         break;
 		case WM_TIMEOUT:
+				if(Delay_send)
+				{
+					Delay_send=0;
+					Uart_RunToSet(RunTo_Slect);
+					Lcd_Write_Time(READ_BK,1,30);//5s
+				}
+				else
+				{
+					Lcd_Write_Time(READ_BK,0,0);//5s
+					Creat_Frame(Main_Frame);
+				}
 				//Beep_SetNum(1,2,0);
-				Lcd_Write_Time(READ_BK,0,0);//5s
-				Creat_Frame(Main_Frame);
         break;
 		case WM_ARRIVE:
 				Lcd_Write_Time(READ_BK,0,0);//5s
@@ -284,19 +297,21 @@ void Run_Frame(int data)
 				tempnum=0;
 				clear_screen();	
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(108,0,111,temph);
-				GRAM_Fill(108,temph,111,EndY);
-				dis_Hight(50,25,(float)Para_read(HIGHT_NOW));
+				GRAM_Clear(120,0,124,temph);
+				GRAM_Fill(120,temph,124,EndY);
+				dis_Hight(55,25,(float)Para_read(HIGHT_NOW));
 				Change_Sit_Stand();
 				Lcd_Write_Time(READ_BK,1,3);//5s
         break;
 		case WM_M:
 				Lcd_Write_Time(READ_BK,0,0);//5s
+				Lcd_Write_Time(REAL_T,0,4);//5s
 				Creat_Frame(Main_Frame);
 				break;
 		case WM_MLONG:
 				Menu_Frame_Init();
 				Lcd_Write_Time(READ_OFF,0,0);//5s
+				Lcd_Write_Time(REAL_T,0,4);//5s
 				Creat_Frame(Menu_Frame);
 				break;
 		case WM_UPLONG:
@@ -304,10 +319,10 @@ void Run_Frame(int data)
 				Lcd_Write_Time(READ_BK,1,3);//5s
 				Lcd_Write_Time(REAL_T,1,4);//5s
 				Uart_Send_Forward(0);
-				dis_Hight(50,25,Para_read(HIGHT_NOW));
+				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(108,0,111,temph);
-				GRAM_Fill(108,temph,111,EndY);
+				GRAM_Clear(120,0,124,temph);
+				GRAM_Fill(120,temph,124,EndY);
 				Change_Sit_Stand();
 				break;
 		case WM_DOWN:
@@ -315,10 +330,10 @@ void Run_Frame(int data)
 				Lcd_Write_Time(READ_BK,1,3);//5s
 				Lcd_Write_Time(REAL_T,1,4);//5s
 				Uart_Send_Forward(1);
-				dis_Hight(50,25,Para_read(HIGHT_NOW));
+				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(108,0,111,temph);
-				GRAM_Fill(108,temph,111,EndY);
+				GRAM_Clear(120,0,124,temph);
+				GRAM_Fill(120,temph,124,EndY);
 				Change_Sit_Stand();
 				break;		
 		case WM_1:
@@ -328,14 +343,15 @@ void Run_Frame(int data)
 			RunTo_Slect=data-3;
 			if(Para_read((enum PARA_ENUM)data)==0)break;//如果没设置不跳转
 			Lcd_Write_Time(READ_OFF,0,0);//5s
+			Lcd_Write_Time(REAL_T,0,4);//5s
 			Creat_Frame(RunisSet_Frame);
 			break;
 		case WM_REALTIME:
 				Uart_Send_ReadHight();
-				dis_Hight(50,25,Para_read(HIGHT_NOW));
+				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(108,0,111,temph);
-				GRAM_Fill(108,temph,111,EndY);
+				GRAM_Clear(120,0,124,temph);
+				GRAM_Fill(120,temph,124,EndY);
 				Change_Sit_Stand();
 				break;
 		case WM_TIMEOUT:
@@ -390,7 +406,7 @@ void retry_Frame(int data)
     {
     case WM_CREATE:
 				clear_screen();	
-				GRAM_ShowString(40,23,"请重试!",FONT16_DEFAULT);
+				GRAM_ShowString(31,23,"请重试!",FONT22_DEFAULT);
 				Lcd_Write_Time(READ_BK,1,1);//5s
         break;
 		case WM_TIMEOUT:
@@ -467,6 +483,8 @@ void HightSavetWinkle_Frame(int data)
 			break;
 		case WM_TIMEOUT:
 			Back_To=0;
+			Lcd_Write_Time(READ_BK,0,3);//5s
+			Lcd_Write_Time(REAL_T,0,3);//5s
 			Creat_Frame(ERROR_Frame);
 			break;
 		case WM_ARRIVE:
@@ -486,6 +504,8 @@ void HightSavetWinkle_Frame(int data)
 					break;
 				}		
 				Back_To=0;
+				Lcd_Write_Time(READ_BK,0,3);//5s
+				Lcd_Write_Time(REAL_T,0,3);//5s
 				Creat_Frame(OK_Frame);
 				break;
 	}
@@ -508,7 +528,7 @@ void HightSave_Frame(int data)
 						sprintf(bufd,"%d%s",(int)temphight,(Para_read(MODE_UNIT))?"in":"cm");
 						GRAM_Clear(98,25,101,57);
 					}
-					GRAM_ShowString(80,8,bufd,FONT16_DEFAULT);
+					GRAM_ShowString(10,8,bufd,FONT22_DEFAULT);
 					if(Para_read(HIGHT_SET1))
 					{
 						GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,0);
@@ -548,24 +568,28 @@ void HightSave_Frame(int data)
 				GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,0);
 				clear_page_edge(10,30); 
 				now_select=1;
+				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_2:
 				GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,0);
 				clear_page_edge(40,30);
 				now_select=2;
+				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_3:
 				GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,0);
 				clear_page_edge(70,30);
 				now_select=3;
+				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_4:
 				GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,0);
 				clear_page_edge(100,30);
 				now_select=4;
+				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_M:
@@ -574,7 +598,7 @@ void HightSave_Frame(int data)
 				break;
 			case WM_MLONG:
 				Menu_Frame_Init();
-				Lcd_Write_Time(READ_OFF,0,0);//5s
+				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(Menu_Frame);
 				break;
     }
@@ -587,8 +611,8 @@ void SetOverError_Frame(int data)
 			case WM_CREATE:
 					clear_screen();	
 					Lcd_Write_Time(READ_BK,0,0);//5s
-					GRAM_ShowLattice(30,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
-					GRAM_ShowString(80,23,"超限",FONT16_DEFAULT);
+					GRAM_ShowLattice(25,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
+					GRAM_ShowString(59,20,"超限",FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,1);//5s
 					//full_display();
 					break;
@@ -599,6 +623,7 @@ void SetOverError_Frame(int data)
 			case WM_M:
 			case WM_UP:
 			case WM_DOWN:
+					Lcd_Write_Time(READ_BK,0,1);//5s
 					Creat_Frame(Main_Frame);
         break;
 			case WM_TIMEOUT:
@@ -615,10 +640,9 @@ void Problem_Frame(int data)
     {
 			case WM_CREATE:
 					clear_screen();	
-					Lcd_Write_Time(READ_BK,0,0);//5s
-					GRAM_ShowLattice(30,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
+					GRAM_ShowLattice(35,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
 					sprintf(bufd,"E%02X",Para_read(PROBLEM));
-					GRAM_ShowString(80,23,bufd,FONT16_DEFAULT);
+					GRAM_ShowString(69,20,bufd,FONT22_DEFAULT);
 					break;
 			case WM_1:
 			case WM_2:
@@ -633,7 +657,9 @@ void Problem_Frame(int data)
 					break;
 			case WM_ARRIVE:
 				if(Para_read(RELEASE)==2)
+				{
 					Creat_Frame(Reseting_Frame);
+				}
 				break;
     }
 }
@@ -656,20 +682,19 @@ void Ring_Frame(int data)
 					switch(ringstate)
 					{
 						case 0:
-							GRAM_ShowString(45,15,">",FONT16_DEFAULT);
+							GRAM_ShowString(45,15,">",FONT22_DEFAULT);
 							Lcd_Write_Time(REAL_T,1,20);//2s
 							ringstate++;
 							break;
 						case 1:
-							GRAM_ShowString(65,15,">",FONT16_DEFAULT);
+							GRAM_ShowString(65,15,">",FONT22_DEFAULT);
 							Lcd_Write_Time(REAL_T,1,20);//1s
 							ringstate++;
 							break;
 						case 2:
-							GRAM_ShowString(85,15,">",FONT16_DEFAULT);
+							GRAM_ShowString(85,15,">",FONT22_DEFAULT);
 							Lcd_Write_Time(REAL_T,1,20);//1s
-							ringstate++;
-							break;
+							ringstate++; 
 						case 3:
 							GRAM_Clear(40,15,95,31);
 							Lcd_Write_Time(REAL_T,1,20);//1s
@@ -690,6 +715,7 @@ void Ring_Frame(int data)
 				case WM_DOWN:
 				case WM_TIMEOUT:
 					Beep_SetNum(0,2,2);
+					Lcd_Write_Time(REAL_T,0,1);//5s
 					Lcd_Write_Time(READ_BK,0,0);//5s
 					beep_write(0);
 					ringstate=0;

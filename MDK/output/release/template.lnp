@@ -31,7 +31,6 @@
 ".\output\release\lcd12864.o"
 ".\output\release\lcd_drive.o"
 --library_type=microlib --strict --scatter ".\output\release\template.sct"
-
---keep=*Handler --summary_stderr --info summarysizes --map --symbols
+--keep=*Handler --summary_stderr --info summarysizes --map --load_addr_map_info --symbols
 --info sizes --info totals
 --list ".\output\release\template.map" -o .\output\release\template.axf

@@ -312,7 +312,7 @@ void ClearFrame(void)
 {
     GRAM_Clear(arrowUpX,arrowUpY,arrowUpX+16,arrowUpY+8);
 		GRAM_Clear(arrowDownX,arrowDownY,arrowDownX+16,arrowDownY+8);
-		GRAM_Clear(MenuX,MenuY,MenuX+16*4,MenuY+16);
+		GRAM_Clear(MenuX,MenuY,MenuX+22*4,MenuY+22);
 }
 /*******************************************************
 º¯ÊýÃû³Æ£º»­°×É«Ìî³ä¾ØÐÎ¿ò
@@ -393,17 +393,17 @@ void GRAM_ShowChar(uint8_t x,uint8_t y,uint8_t CHAR,FONT_MODE FontMode)
         rows = 1;
         column = 5;
     }
-    else if(FontSize==12)
-    {
-        rows = 2;
-        column = 8;
-        //p = (uint8_t *)ASCII_8X12[CHAR];		//12ºÅ
-    }
     else if(FontSize == 16)
     {
         rows = 2;
         column = 8;
-				p = (uint8_t *)F8X16[CHAR];		//16ºÅ
+				//p = (uint8_t *)F8X16[CHAR];		//16ºÅ
+    }
+		else if(FontSize == 22)
+    {
+        rows = 3;
+        column = 11;
+				p = (uint8_t *)F11X22[CHAR];		//16ºÅ
     }
 		else if(FontSize == 32)
     {
@@ -632,6 +632,9 @@ void GRAM_ShowString(uint16_t x,uint16_t y,const char *pStr,FONT_MODE Font_MODE)
     case 16:
         width=16;
         break;
+		 case 22:
+        width=22;
+        break;
     case 24:
         width=24;
         break;
@@ -652,7 +655,7 @@ void GRAM_ShowString(uint16_t x,uint16_t y,const char *pStr,FONT_MODE Font_MODE)
 
             GRAM_ShowChina(x,y,(const unsigned char*)font_Dat,Font_MODE);				//ÏÔÊ¾ºº×Ö
             pStr += 2;
-            if(x > 128 - 32)  //×Ô¶¯»»ÐÐ
+            if(x > 128 - width)  //×Ô¶¯»»ÐÐ
             {
                 x = 0;
                 y += Font_Size;

@@ -53,7 +53,7 @@ void Menu_Frame(int data)
 					clear_screen();	
 				  Set_Focus(&Menu_Frame_Foucus);
 					GetLang(&Menu_Frame_Foucus,Menufont);
-					GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
 					GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 					Lcd_Write_Time(READ_BK,1,3);//5s
@@ -64,7 +64,8 @@ void Menu_Frame(int data)
 					Creat_Frame(Main_Frame);
 					break;
 			case WM_UP:
-				 ClearFrame();
+				Lcd_Write_Time(READ_BK,1,3);//5s
+				ClearFrame();
 				GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
 				GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				Menu_Frame_Foucus.Now_Focus--;
@@ -72,10 +73,11 @@ void Menu_Frame(int data)
 				{
 					Menu_Frame_Foucus.Now_Focus=12;
 				}
-        GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+        GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 				break;
 			case WM_DOWN:
-				 ClearFrame();
+				Lcd_Write_Time(READ_BK,1,3);//5s
+				ClearFrame();
 				GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
 				GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				Menu_Frame_Foucus.Now_Focus++;
@@ -83,12 +85,12 @@ void Menu_Frame(int data)
 				{
 					Menu_Frame_Foucus.Now_Focus=0;
 				}
-        GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+        GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 				break;
 			case WM_DWONLONG:
 			case WM_UPLONG:
 				Lcd_Write_Time(REAL_T,0,10);//5s
-				Lcd_Write_Time(READ_OFF,0,0);//5s
+				Lcd_Write_Time(READ_BK,0,0);//5s
 				Creat_Frame(Run_Frame);
 				break;
 			case WM_1:
@@ -97,10 +99,13 @@ void Menu_Frame(int data)
 			case WM_4:
 				RunTo_Slect=data-3;
 				if(Para_read((enum PARA_ENUM)data)==0)break;//如果没设置不跳转
-				Lcd_Write_Time(READ_OFF,0,0);//5s
+				Lcd_Write_Time(REAL_T,0,10);//5s
+				Lcd_Write_Time(READ_BK,0,0);//5s
 				Creat_Frame(RunisSet_Frame);
 				break;
 			case WM_M:
+				Lcd_Write_Time(REAL_T,0,10);//5s
+				Lcd_Write_Time(READ_BK,0,0);//5s
 				switch(Menu_Frame_Foucus.Now_Focus)
 				{
 					case 0:
@@ -177,13 +182,13 @@ static void Sitchange_Frame(int data)
 					Sitchage_Frame_Init();
 				  Set_Focus(&Sitchage_Frame_Foucus);
 					GetLang(&Sitchage_Frame_Foucus,Sitchagefont);
-					GRAM_ShowString(MenuX,MenuY,Sitchage_Frame_Foucus.Focus_Data[Sitchage_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,Sitchage_Frame_Foucus.Focus_Data[Sitchage_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					if(Para_read(TIME_SETREMINDER)==RemindList[Sitchage_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -192,22 +197,24 @@ static void Sitchange_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+					Lcd_Write_Time(READ_BK,1,3);//5s
 					Decrease_Focus(&Sitchage_Frame_Foucus);
 					if(Para_read(TIME_SETREMINDER)==RemindList[Sitchage_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					break;
 			case WM_DOWN:
+					Lcd_Write_Time(READ_BK,1,3);//5s
 					Increase_Focus(&Sitchage_Frame_Foucus);
 					if(Para_read(TIME_SETREMINDER)==RemindList[Sitchage_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					break;
 			case WM_M:
 					switch(Sitchage_Frame_Foucus.Now_Focus)
@@ -219,6 +226,7 @@ static void Sitchange_Frame(int data)
 							Para_write(TIME_SETREMINDER,RemindList[Sitchage_Frame_Foucus.Now_Focus],0);
 							break;
 						case 4:
+							Lcd_Write_Time(READ_BK,0,3);//5s
 							Creat_Frame(Menu_Frame);
 							break;
 						default:
@@ -228,6 +236,7 @@ static void Sitchange_Frame(int data)
 				case WM_ARRIVE:
 					Para_write(TIME_SETREMINDER,RemindList[Sitchage_Frame_Foucus.Now_Focus],1);
 					Back_To=1;
+					Lcd_Write_Time(READ_BK,0,3);//5s
 					Creat_Frame(OK_Frame);
 					break;
    }
@@ -243,7 +252,7 @@ static void BlockCheck_Frame(int data)
     {
 			case WM_CREATE: 
 					clear_screen();	
-					GRAM_ShowString(MenuX+16,MenuY,"自检中",FONT16_DEFAULT);
+					GRAM_ShowString(MenuX+16,MenuY,"自检中",FONT22_DEFAULT);
 					Uart_Send_CheckBlock();
 					Lcd_Write_Time(READ_BK,1,20);//5s
 					Lcd_Write_Time(REAL_T,1,5);//5s
@@ -277,9 +286,13 @@ static void BlockCheck_Frame(int data)
 					switch(Para_read(ACTIVE_SULT))
 					{
 						case 0:
+							Lcd_Write_Time(READ_BK,0,0);//5s
+							Lcd_Write_Time(REAL_T,0,5);//5s
 							Creat_Frame(ERROR_Frame);
 							break;
 						case 1:
+							Lcd_Write_Time(READ_BK,0,0);//5s
+							Lcd_Write_Time(REAL_T,0,5);//5s
 							Creat_Frame(OK_Frame);
 							break;
 					}
@@ -319,13 +332,13 @@ static void BlockBack_Frame(int data)
 					BlockBack_Frame_Init();
 				  Set_Focus(&BlockBack_Frame_Foucus);
 					GetLang(&BlockBack_Frame_Foucus,BlockBackfont);
-					GRAM_ShowString(MenuX,MenuY,BlockBack_Frame_Foucus.Focus_Data[BlockBack_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,BlockBack_Frame_Foucus.Focus_Data[BlockBack_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					if(Para_read(MODE_BLOCK)==BlockBackList[BlockBack_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -334,22 +347,24 @@ static void BlockBack_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&BlockBack_Frame_Foucus);
 				if(Para_read(MODE_BLOCK)==BlockBackList[BlockBack_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&BlockBack_Frame_Foucus);
 				if(Para_read(MODE_BLOCK)==BlockBackList[BlockBack_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_M:
 				switch(BlockBack_Frame_Foucus.Now_Focus)
@@ -360,6 +375,7 @@ static void BlockBack_Frame(int data)
 						Para_write(MODE_BLOCK,BlockBackList[BlockBack_Frame_Foucus.Now_Focus],0);
 						break;
 					case 3:
+						Lcd_Write_Time(READ_BK,0,0);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -369,6 +385,7 @@ static void BlockBack_Frame(int data)
 			case WM_ARRIVE:
 					Para_write(MODE_BLOCK,BlockBackList[BlockBack_Frame_Foucus.Now_Focus],1);
 					Back_To=1;
+					Lcd_Write_Time(READ_BK,0,0);//5s
 					Creat_Frame(OK_Frame);
 					break;
    }
@@ -397,13 +414,13 @@ static void WillBlockBack_Frame(int data)
 					WillBlockBack_Frame_Init();
 				  Set_Focus(&WillBlockBack_Frame_Foucus);
 					GetLang(&WillBlockBack_Frame_Foucus,WillBlockBackfont);
-					GRAM_ShowString(MenuX,MenuY,WillBlockBack_Frame_Foucus.Focus_Data[WillBlockBack_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,WillBlockBack_Frame_Foucus.Focus_Data[WillBlockBack_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					if(Para_read(MODE_WILLBLOCK)==WillBlockBackList[WillBlockBack_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -412,22 +429,24 @@ static void WillBlockBack_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&WillBlockBack_Frame_Foucus);
 				if(Para_read(MODE_WILLBLOCK)==WillBlockBackList[WillBlockBack_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&WillBlockBack_Frame_Foucus);
 				if(Para_read(MODE_WILLBLOCK)==WillBlockBackList[WillBlockBack_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_M:
 				switch(WillBlockBack_Frame_Foucus.Now_Focus)
@@ -437,6 +456,7 @@ static void WillBlockBack_Frame(int data)
 						Para_write(MODE_WILLBLOCK,WillBlockBackList[WillBlockBack_Frame_Foucus.Now_Focus],0);
 						break;
 					case 2:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -446,6 +466,7 @@ static void WillBlockBack_Frame(int data)
 			case WM_ARRIVE:
 					Para_write(MODE_WILLBLOCK,WillBlockBackList[WillBlockBack_Frame_Foucus.Now_Focus],1);
 					Back_To=1;
+					Lcd_Write_Time(READ_BK,0,3);//5s
 					Creat_Frame(OK_Frame);
 					break;
    }
@@ -478,13 +499,13 @@ static void KnockGoDown_Frame(int data)
 					KnockGoDown_Frame_Init();
 				  Set_Focus(&KnockGoDown_Frame_Foucus);
 					GetLang(&KnockGoDown_Frame_Foucus,BlockGoDownfont);
-					GRAM_ShowString(MenuX,MenuY,KnockGoDown_Frame_Foucus.Focus_Data[KnockGoDown_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,KnockGoDown_Frame_Foucus.Focus_Data[KnockGoDown_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					if(Para_read(MODE_KNOCK)==BlockGoDownList[KnockGoDown_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -493,22 +514,24 @@ static void KnockGoDown_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&KnockGoDown_Frame_Foucus);
 				if(Para_read(MODE_KNOCK)==BlockGoDownList[KnockGoDown_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&KnockGoDown_Frame_Foucus);
 				if(Para_read(MODE_KNOCK)==BlockGoDownList[KnockGoDown_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_M:
 				switch(KnockGoDown_Frame_Foucus.Now_Focus)
@@ -518,6 +541,7 @@ static void KnockGoDown_Frame(int data)
 						Para_write(MODE_KNOCK,BlockGoDownList[KnockGoDown_Frame_Foucus.Now_Focus],0);
 						break;
 					case 2:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -527,6 +551,7 @@ static void KnockGoDown_Frame(int data)
 			case WM_ARRIVE:
 					Para_write(MODE_KNOCK,BlockGoDownList[KnockGoDown_Frame_Foucus.Now_Focus],1);
 					Back_To=1;		
+					Lcd_Write_Time(READ_BK,0,3);//5s
 					Creat_Frame(OK_Frame);
 					break;
    }
@@ -541,7 +566,7 @@ static void AutoBlence_Frame(int data)
 			case WM_CREATE: 
 					Uart_Send_AutoBalence();
 					clear_screen();	
-					GRAM_ShowString(MenuX+16,MenuY,"调平中",FONT16_DEFAULT);
+					GRAM_ShowString(MenuX+16,MenuY,"调平中",FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,60);//5s
 					Lcd_Write_Time(REAL_T,1,5);//5s
 					break;
@@ -574,9 +599,13 @@ static void AutoBlence_Frame(int data)
 					switch(Para_read(ACTIVE_SULT))
 					{
 						case 0:
+							Lcd_Write_Time(READ_BK,0,60);//5s
+							Lcd_Write_Time(REAL_T,0,5);//5s
 							Creat_Frame(ERROR_Frame);
 							break;
 						case 1:
+							Lcd_Write_Time(READ_BK,0,60);//5s
+							Lcd_Write_Time(REAL_T,0,5);//5s
 							Creat_Frame(OK_Frame);
 							break;
 					}
@@ -606,7 +635,7 @@ static void CheckBlence_Frame(int data)
 			case WM_CREATE: 
 					Uart_Send_CheckBalence();
 					clear_screen();	
-					GRAM_ShowString(MenuX+16,MenuY,"自检中",FONT16_DEFAULT);
+					GRAM_ShowString(MenuX+16,MenuY,"自检中",FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,10);//5s
 					Lcd_Write_Time(REAL_T,1,5);//5s
 					break;
@@ -639,16 +668,19 @@ static void CheckBlence_Frame(int data)
 					switch(Para_read(ACTIVE_SULT))
 						{
 							case 0:
+								Lcd_Write_Time(READ_BK,0,60);//5s
+								Lcd_Write_Time(REAL_T,0,5);//5s
 								Creat_Frame(ERROR_Frame);
 								break;
 							case 1:
+								Lcd_Write_Time(READ_BK,0,60);//5s
+								Lcd_Write_Time(REAL_T,0,5);//5s
 								Creat_Frame(OK_Frame);
 								break;
 						}
 					break;
 			case WM_TIMEOUT:
 					Lcd_Write_Time(REAL_T,0,5);//5s
-					//Beep_SetNum(1,2,0);
 					Lcd_Write_Time(READ_BK,0,0);//5s
 					Creat_Frame(retry_Frame);
 					break;
@@ -681,7 +713,7 @@ static void MaxHightset_Frame(int data)
 					MaxHightset_Frame_Init();
 				  Set_Focus(&MaxHightset_Frame_Foucus);
 					GetLang(&MaxHightset_Frame_Foucus,MaxHightsetfont);
-					GRAM_ShowString(MenuX,MenuY,MaxHightset_Frame_Foucus.Focus_Data[MaxHightset_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,MaxHightset_Frame_Foucus.Focus_Data[MaxHightset_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -690,9 +722,11 @@ static void MaxHightset_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&MaxHightset_Frame_Foucus);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&MaxHightset_Frame_Foucus);
 				break;
 			case WM_M:
@@ -700,7 +734,10 @@ static void MaxHightset_Frame(int data)
 				{
 					case 0:
 						if(Para_read(HIGHT_NOW)<=(Para_read(HIGHT_DWON)+((Para_str.mode_str.unit_mode)?4:10)))
+						{
+							Lcd_Write_Time(READ_BK,0,3);//5s
 							Creat_Frame(ERROR_Frame);
+						}
 						else
 						{
 							Para_write(HIGHT_TOP,Para_read(HIGHT_NOW),0);
@@ -708,9 +745,9 @@ static void MaxHightset_Frame(int data)
 						break;
 					case 1:
 						Para_write(HIGHT_TOP,MAX_HIGHT,0);
-						
 						break;
 					case 2:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -720,7 +757,8 @@ static void MaxHightset_Frame(int data)
 			case WM_ARRIVE:		
 					Back_To=1;
 					if(MaxHightset_Frame_Foucus.Now_Focus==0)Para_write(HIGHT_TOP,Para_read(HIGHT_NOW),1);		
-					else	Para_write(HIGHT_TOP,MAX_HIGHT,1);				
+					else	Para_write(HIGHT_TOP,MAX_HIGHT,1);	
+					Lcd_Write_Time(READ_BK,0,3);//5s			
 					Creat_Frame(OK_Frame);
 				break;
    }
@@ -750,7 +788,7 @@ static void MinHightset_Frame(int data)
 					MinHightset_Frame_Init();
 				  Set_Focus(&MinHightset_Frame_Foucus);
 					GetLang(&MinHightset_Frame_Foucus,MinHightsetfont);
-					GRAM_ShowString(MenuX,MenuY,MinHightset_Frame_Foucus.Focus_Data[MinHightset_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,MinHightset_Frame_Foucus.Focus_Data[MinHightset_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -759,9 +797,11 @@ static void MinHightset_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&MinHightset_Frame_Foucus);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&MinHightset_Frame_Foucus);
 				break;
 			case WM_M:
@@ -769,7 +809,10 @@ static void MinHightset_Frame(int data)
 				{
 					case 0:
 						if(Para_read(HIGHT_NOW)>=(Para_read(HIGHT_TOP)-((Para_str.mode_str.unit_mode)?4:10)))
+						{
+							Lcd_Write_Time(READ_BK,0,3);//5s
 							Creat_Frame(ERROR_Frame);
+						}
 						else
 						{
 							Para_write(HIGHT_DWON,Para_read(HIGHT_NOW),0);
@@ -780,6 +823,7 @@ static void MinHightset_Frame(int data)
 						Para_str.hight_str.DownSetFlag=false;
 						break;
 					case 2:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -789,7 +833,8 @@ static void MinHightset_Frame(int data)
 		case WM_ARRIVE:			
 					Back_To=1;			
 					if(MinHightset_Frame_Foucus.Now_Focus==0)Para_write(HIGHT_DWON,Para_read(HIGHT_NOW),1);		
-					else	Para_write(HIGHT_DWON,MIN_HIGHT,1);				
+					else	Para_write(HIGHT_DWON,MIN_HIGHT,1);			
+					Lcd_Write_Time(READ_BK,0,3);//5s		
 					Creat_Frame(OK_Frame);
 				break;
    }
@@ -822,13 +867,13 @@ static void Unitset_Frame(int data)
 					Unitset_Frame_Init();
 				  Set_Focus(&Unitset_Frame_Foucus);
 					GetLang(&Unitset_Frame_Foucus,Unitsetfont);
-					GRAM_ShowString(MenuX,MenuY,Unitset_Frame_Foucus.Focus_Data[Unitset_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,Unitset_Frame_Foucus.Focus_Data[Unitset_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					if(Para_read(MODE_UNIT)==UnitsetList[Unitset_Frame_Foucus.Now_Focus])
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+						GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 					}
 					else
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+						GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -837,22 +882,24 @@ static void Unitset_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&Unitset_Frame_Foucus);
 				if(Para_read(MODE_UNIT)==UnitsetList[Unitset_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&Unitset_Frame_Foucus);
 				if(Para_read(MODE_UNIT)==UnitsetList[Unitset_Frame_Foucus.Now_Focus])
 				{
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,12,(const uint8_t *)Page_SETOK,1);
+					GRAM_ShowLattice(CheckX,CheckY,16,12,(const uint8_t *)Page_SETOK,1);
 				}
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+12);
+					GRAM_Clear(CheckX,CheckY,CheckX+16,CheckY+12);
 				break;
 			case WM_M:
 				switch(Unitset_Frame_Foucus.Now_Focus)
@@ -862,6 +909,7 @@ static void Unitset_Frame(int data)
 						Para_write(MODE_UNIT,UnitsetList[Unitset_Frame_Foucus.Now_Focus],0);
 						break;
 					case 2:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -871,6 +919,7 @@ static void Unitset_Frame(int data)
 			case WM_ARRIVE:			
 					Back_To=1;
 					Para_write(MODE_UNIT,UnitsetList[Unitset_Frame_Foucus.Now_Focus],1);
+					Lcd_Write_Time(READ_BK,0,3);//5s
 					Creat_Frame(OK_Frame);
 				break;
    }
@@ -900,9 +949,9 @@ void Resetset_Frame(int data)
 					Resetset_Frame_Init();
 				  Set_Focus(&Resetset_Frame_Foucus);
 					GetLang(&Resetset_Frame_Foucus,Resetsetfont);
-					GRAM_ShowString(MenuX,MenuY,Resetset_Frame_Foucus.Focus_Data[Resetset_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
-					Lcd_Write_Time(READ_BK,0,0);//5s
+					GRAM_ShowString(MenuX,MenuY,Resetset_Frame_Foucus.Focus_Data[Resetset_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
+					GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
+					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
 					//Beep_SetNum(1,2,0);
@@ -910,26 +959,30 @@ void Resetset_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&Resetset_Frame_Foucus);
 				if(Resetset_Frame_Foucus.Now_Focus==0)
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
+					GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+16);
+					GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 				break;
 			case WM_DWONLONG:
+					Lcd_Write_Time(READ_BK,0,3);//5s
 					Creat_Frame(Reseting_Frame);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&Resetset_Frame_Foucus);
 				if(Resetset_Frame_Foucus.Now_Focus==0)
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
+					GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 				else
-					GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+16);
+					GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 				break;
 			case WM_M:
 				switch(Resetset_Frame_Foucus.Now_Focus)
 				{
 					case 1:
+						Lcd_Write_Time(READ_BK,0,3);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -942,7 +995,7 @@ void Resetset_Frame(int data)
 
 const char * Versionfont[]=
 {
-	"LGC-V1.2",
+	"LGC_V1.2",
 	"返回",
 };
 
@@ -962,7 +1015,7 @@ static void Version_Frame(int data)
 					Version_Frame_Init();
 				  Set_Focus(&Version_Frame_Foucus);
 					GetLang(&Version_Frame_Foucus,Versionfont);
-					GRAM_ShowString(MenuX,MenuY,Version_Frame_Foucus.Focus_Data[Version_Frame_Foucus.Now_Focus],FONT16_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,Version_Frame_Foucus.Focus_Data[Version_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -971,15 +1024,18 @@ static void Version_Frame(int data)
 					Creat_Frame(Menu_Frame);
 					break;
 			case WM_UP:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Decrease_Focus(&Version_Frame_Foucus);
 				break;
 			case WM_DOWN:
+				Lcd_Write_Time(READ_BK,1,3);//5s
 				Increase_Focus(&Version_Frame_Foucus);
 			  break;
 			case WM_M:
 				switch(Version_Frame_Foucus.Now_Focus)
 				{
 					case 1:
+						Lcd_Write_Time(READ_BK,0,0);//5s
 						Creat_Frame(Menu_Frame);
 						break;
 					default:
@@ -999,10 +1055,8 @@ void Reseting_Frame(int data)
 					if(Para_str.FirstPower==0xbb)senddelay=1;else senddelay=0;
 					Para_str.FirstPower=0;
 					clear_screen();	
-					GRAM_ShowString(MenuX+15,MenuY,"请长按",FONT32_DEFAULT);
-					GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
-					Lcd_Write_Time(READ_BK,0,0);//5s
-					Lcd_Write_Time(REAL_T,0,0);//5s
+					GRAM_ShowString(MenuX,MenuY,"请长按",FONT22_DEFAULT);
+					GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					break;
 			case WM_TIMEOUT:
 				Uart_Start();
@@ -1023,6 +1077,7 @@ void Reseting_Frame(int data)
 							Back_To=0;
 							Para_write(HIGHT_TOP,MAX_HIGHT,0);
 							Para_write(HIGHT_DWON,MIN_HIGHT,0);
+							Lcd_Write_Time(REAL_T,0,0);//5s
 							Creat_Frame(OK_Frame);
 							break;
 					}
@@ -1036,12 +1091,11 @@ void Reseting_Frame(int data)
 					Lcd_Write_Time(REAL_T,1,2);//5s
 					if(SLH<10)
 					{
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+16);
+						GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 					}
 					else if(SLH>=10&&SLH<20)
 					{
-						
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
+						GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					}
 					else
 					{
@@ -1052,11 +1106,11 @@ void Reseting_Frame(int data)
 					SLH++;
 					if(SLH<10)
 					{
-						GRAM_Clear(MenuX+5*16,MenuY,MenuX+5*16+16,MenuY+16);
+						GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 					}
 					else if(SLH>=10&&SLH<20)
 					{
-						GRAM_ShowLattice(MenuX+5*16,MenuY,16,16,(const uint8_t *)Page_DOWN,0);
+						GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					}
 					else
 					{

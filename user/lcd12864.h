@@ -16,7 +16,10 @@
 #define LCDReset_Pin   GpioPin4
 
 #define MenuX 10
-#define MenuY 27
+#define MenuY 22
+
+#define CheckX MenuX+98
+#define CheckY MenuY+5
 
 #define arrowUpX 10
 #define arrowUpY 10
@@ -27,7 +30,7 @@
 #define StartX 5
 #define StartY 5
 #define EndX 120
-#define EndY 55
+#define EndY 52
 
 
 #define LCD12864_CMD_MODE   Gpio_WriteOutputIO(RS_Port, RS_Pin, 0);
@@ -63,7 +66,8 @@ typedef enum
 {
 		FONT32_DEFAULT 	= (0x80+32),	//24号,叠加显示
     FONT24_DEFAULT 	= (0x80+24),	//24号,叠加显示
-    FONT16_DEFAULT 	= (0x80+16),	//16号,叠加显示
+		FONT16_DEFAULT 	= (0x80+16),	//24号,叠加显示
+    FONT22_DEFAULT 	= (0x80+22),	//16号,叠加显示
     FONT12_DEFAULT 	= (0x80+12),	//12号,叠加显示
     FONT6_DEFAULT 	= (0x80+6),	//12号,叠加显示
     FONT24_COVER 	= 	(24),		//24号,覆盖显示
@@ -71,6 +75,7 @@ typedef enum
     FONT12_COVER 	= 	(12),		//12号,覆盖显示
     FONT6_COVER 	= 	(6),		//6号,覆盖显示
     FONT24_REVERSE 	= (0x40+24),	//24号,反显显示
+		FONT22_REVERSE 	= (0x40+22),	//22号,反显显示
     FONT16_REVERSE 	= (0x40+16),	//16号,反显显示
     FONT12_REVERSE 	= (0x40+12),	//12号,反显显示
     FONT6_REVERSE 	= (0x40+6),	//12号,叠加显示

@@ -61,7 +61,7 @@ void Increase_Focus(Focus_Srtuct_Typdef *Focus)
     {
         Focus->Now_Focus++;
         ClearFrame();
-        GRAM_ShowString(MenuX,MenuY,Focus->Focus_Data[Focus->Now_Focus],FONT16_DEFAULT);
+        GRAM_ShowString(MenuX,MenuY,Focus->Focus_Data[Focus->Now_Focus],FONT22_DEFAULT);
 				if(Focus->Now_Focus==Focus->Max_Focus_Num)
 				{
 					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
@@ -90,7 +90,7 @@ void Decrease_Focus(Focus_Srtuct_Typdef *Focus)
     {
         Focus->Now_Focus--;
         ClearFrame();
-        GRAM_ShowString(MenuX,MenuY,Focus->Focus_Data[Focus->Now_Focus],FONT16_DEFAULT);
+        GRAM_ShowString(MenuX,MenuY,Focus->Focus_Data[Focus->Now_Focus],FONT22_DEFAULT);
 				if(Focus->Now_Focus==0)
 				{
 					//Focus->Now_Focus=12;
@@ -215,8 +215,6 @@ void LCD_Control(int msg)
 		case WM_4:                 			     
 		case WM_MLONG:   
 		case WM_ARRIVE:
-			LCDTimeOut_Str.Back_Time=0;
-			LCDTimeOut_Str.OFF_Time=0;
 			WM_Frame.cb(msg);
 			full_display();
 		break;
