@@ -36,7 +36,7 @@ void Open_movie(int data)
 				if(Open_movie_time==60)Uart_Start();
 				if(Open_movie_time<=30)Uart_Send_ReadHight();
 				clear_screen();
-				GRAM_ShowLattice(22,Open_movie_time,88,16,(const uint8_t *)Page_LOGO_WIN ,1);
+				GRAM_ShowLattice(30,Open_movie_time,88,16,(const uint8_t *)Page_LOGO_WIN ,1);
 			}
 			else
 			{
@@ -90,27 +90,27 @@ void Main_Frame(int data)
 					sprintf(bufd,"%d",(int)temphight);
 					//GRAM_Clear(96,25,101,57);
 				}
-				GRAM_ShowString(78,5,bufd,FONT22_DEFAULT);
+				GRAM_ShowString(86,13,bufd,FONT22_DEFAULT);
 				
-				GRAM_ShowLattice(10,10,64,14,(const uint8_t *)Page_LOGO ,1);
+				GRAM_ShowLattice(18,18,64,14,(const uint8_t *)Page_LOGO ,1);
 				if(Para_read(TIME_SETREMINDER))
-				GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_REMIND_HOME ,0); 
+				GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_REMIND_HOME ,0); 
 				
 				if((Para_str.hight_str.TopSetFlag)&&(!Para_str.hight_str.DownSetFlag))
-					GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_LIMITTOP ,1);
+					GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_LIMITTOP ,1);
 				else if((!Para_str.hight_str.TopSetFlag)&&(Para_str.hight_str.DownSetFlag))
-					GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_LIMITDWON ,1);
+					GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_LIMITDWON ,1);
 				else if(Para_str.hight_str.TopSetFlag&&Para_str.hight_str.DownSetFlag)
-					GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_LIMIT_HOME ,0);
+					GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_LIMIT_HOME ,0);
 
 					
 				
 				if(Para_read(MODE_KNOCK))
-					GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_KNOCK_HOME ,0);
+					GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_KNOCK_HOME ,0);
 				if(Para_read(MODE_WILLBLOCK))
-					GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_WILLBACK_HOME ,1);
+					GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_WILLBACK_HOME ,1);
 				else if(Para_read(MODE_BLOCK))//
-					GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_BACK_HOME ,1);
+					GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_BACK_HOME ,1);
 				Lcd_Write_Time(READ_OFF,1,10);//5s
 				Lcd_Write_Time(REAL_T,1,8);//5s
         break;
@@ -127,7 +127,7 @@ void Main_Frame(int data)
 					sprintf(bufd,"%d  ",(int)temphight); 
 					//GRAM_Clear(96,25,101,57);
 				}
-				GRAM_ShowString(78,5,bufd,FONT22_DEFAULT);
+				GRAM_ShowString(86,13,bufd,FONT22_DEFAULT);
 			break;
 		case WM_UP:
 		case WM_DOWN:
@@ -183,36 +183,38 @@ void dis_Hight(uint8_t x,uint8_t y,float temphight)
 
 void RunisSet_Frame(int data)
 {
+	static uint8_t runcount;
 	static bool Delay_send;
-		float temph;
+	static float temph;
 		switch (data)
     {
     case WM_CREATE:
 				//k=(MAX_HIGHT-MIN_HIGHT)/(StartY-EndY);
 				clear_screen();
-				Lcd_Write_Time(REAL_T,0,0);//5s
+				Lcd_Write_Time(REAL_T,1,8);//5s
+				runcount=0;
 				//GRAM_ShowString(50,25,"80.1",FONT32_DEFAULT);
 				switch(RunTo_Slect)
 				{
 					case 1:
 						temph=(float)Para_read(HIGHT_SET1);
-						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M1",FONT22_DEFAULT);
+						dis_Hight(58,32,temph);
+						GRAM_ShowString(88,16,"M1",FONT22_DEFAULT);
 						break;
 					case 2:
 						temph=(float)Para_read(HIGHT_SET2);
-						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M2",FONT22_DEFAULT);
+						dis_Hight(58,32,temph);
+						GRAM_ShowString(88,16,"M2",FONT22_DEFAULT);
 						break;
 					case 3:
 						temph=(float)Para_read(HIGHT_SET3);
-						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M3",FONT22_DEFAULT);
+						dis_Hight(58,32,temph);
+						GRAM_ShowString(88,16,"M3",FONT22_DEFAULT);
 						break;
 					case 4:
 						temph=(float)Para_read(HIGHT_SET4);
-						dis_Hight(50,25,temph);
-						GRAM_ShowString(80,8,"M4",FONT22_DEFAULT);
+						dis_Hight(58,32,temph);
+						GRAM_ShowString(88,16,"M4",FONT22_DEFAULT);
 						break;
 				}
 				if(temph>Para_read(HIGHT_TOP)||temph<Para_read(HIGHT_DWON))
@@ -220,11 +222,29 @@ void RunisSet_Frame(int data)
 					Creat_Frame(SetOverError_Frame);
 					return;
 				}
-				
-				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_GO ,1);
+				GRAM_ShowLattice(18,28,32,32,(const uint8_t *)Page_RUN_GO ,1);
 				Lcd_Write_Time(READ_BK,1,1);//5s
 				Delay_send=true;
         break;
+		case WM_REALTIME:
+				Uart_Send_ReadHight();
+				if(temph!=Para_read(HIGHT_NOW))
+				{
+					runcount=0;
+					temph=(float)Para_read(HIGHT_NOW);
+				}
+				else
+				{
+					runcount++;
+					if(runcount>10)
+					{
+						Lcd_Write_Time(REAL_T,0,40);//5s
+						Lcd_Write_Time(READ_BK,0,0);//5s
+						Back_To=0;
+						Creat_Frame(retry_Frame);
+					}
+				}
+					break;
 		case WM_TIMEOUT:
 				if(Delay_send)
 				{
@@ -240,15 +260,25 @@ void RunisSet_Frame(int data)
 				//Beep_SetNum(1,2,0);
         break;
 		case WM_ARRIVE:
+				Lcd_Write_Time(REAL_T,0,40);//5s
 				Lcd_Write_Time(READ_BK,0,0);//5s
 				Creat_Frame(Main_Frame);
 				break;
 		case WM_M:
 		case WM_UP: 
 		case WM_DOWN:
+				Lcd_Write_Time(REAL_T,0,40);//5s
 				Lcd_Write_Time(READ_BK,0,0);//5s
 				Creat_Frame(Main_Frame);
 				break;
+		case WM_1:
+			break;
+		case WM_2:
+			break;
+		case WM_3:
+			break;
+		case WM_4:
+			break;
     }
 }
 
@@ -268,16 +298,16 @@ void Change_Sit_Stand(void)
 		switch(tempnum)
 		{
 			case 1:
-				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_DOWN ,1);
+				GRAM_ShowLattice(15,20,32,32,(const uint8_t *)Page_RUN_DOWN ,1);
 				break;
 			case 2:
-				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_TOP ,1);
+				GRAM_ShowLattice(15,20,32,32,(const uint8_t *)Page_RUN_TOP ,1);
 				break;
 			case 3:
-				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_SIT ,1);
+				GRAM_ShowLattice(15,20,32,32,(const uint8_t *)Page_RUN_SIT ,1);
 				break;
 			case 4:
-				GRAM_ShowLattice(10,20,32,32,(const uint8_t *)Page_RUN_STAND ,1);
+				GRAM_ShowLattice(15,20,32,32,(const uint8_t *)Page_RUN_STAND ,1);
 				break;
 		}
 	}
@@ -297,8 +327,8 @@ void Run_Frame(int data)
 				tempnum=0;
 				clear_screen();	
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(120,0,124,temph);
-				GRAM_Fill(120,temph,124,EndY);
+				GRAM_Clear(115,0,119,temph);
+				GRAM_Fill(115,temph,119,EndY);
 				dis_Hight(55,25,(float)Para_read(HIGHT_NOW));
 				Change_Sit_Stand();
 				Lcd_Write_Time(READ_BK,1,3);//5s
@@ -321,8 +351,8 @@ void Run_Frame(int data)
 				Uart_Send_Forward(0);
 				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(120,0,124,temph);
-				GRAM_Fill(120,temph,124,EndY);
+				GRAM_Clear(115,0,119,temph);
+				GRAM_Fill(115,temph,119,EndY);
 				Change_Sit_Stand();
 				break;
 		case WM_DOWN:
@@ -332,8 +362,8 @@ void Run_Frame(int data)
 				Uart_Send_Forward(1);
 				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(120,0,124,temph);
-				GRAM_Fill(120,temph,124,EndY);
+				GRAM_Clear(115,0,119,temph);
+				GRAM_Fill(115,temph,119,EndY);
 				Change_Sit_Stand();
 				break;		
 		case WM_1:
@@ -350,8 +380,8 @@ void Run_Frame(int data)
 				Uart_Send_ReadHight();
 				dis_Hight(55,25,Para_read(HIGHT_NOW));
 				temph=EndY+(float)(Para_read(HIGHT_NOW)-Min_Hight)/k;
-				GRAM_Clear(120,0,124,temph);
-				GRAM_Fill(120,temph,124,EndY);
+				GRAM_Clear(115,0,119,temph);
+				GRAM_Fill(115,temph,119,EndY);
 				Change_Sit_Stand();
 				break;
 		case WM_TIMEOUT:
@@ -368,7 +398,7 @@ void OK_Frame(int data)
     {
     case WM_CREATE:
 				clear_screen();	
-				GRAM_ShowLattice(50,20,32,32,(const uint8_t *)Page_OK ,1);
+				GRAM_ShowLattice(60,20,32,32,(const uint8_t *)Page_OK ,1);
 				Lcd_Write_Time(READ_BK,1,1);//5s
         break;
 		case WM_TIMEOUT:
@@ -387,7 +417,7 @@ void ERROR_Frame(int data)
     {
     case WM_CREATE:
 				clear_screen();	
-				GRAM_ShowLattice(50,20,32,32,(const uint8_t *)Page_ERROR ,1);
+				GRAM_ShowLattice(60,20,32,32,(const uint8_t *)Page_ERROR ,1);
 				Lcd_Write_Time(READ_BK,1,1);//5s
         break;
 		case WM_TIMEOUT:
@@ -406,7 +436,7 @@ void retry_Frame(int data)
     {
     case WM_CREATE:
 				clear_screen();	
-				GRAM_ShowString(31,23,"请重试!",FONT22_DEFAULT);
+				GRAM_ShowString(41,23,"请重试",FONT22_DEFAULT);
 				Lcd_Write_Time(READ_BK,1,1);//5s
         break;
 		case WM_TIMEOUT:
@@ -441,41 +471,41 @@ void HightSavetWinkle_Frame(int data)
 					if(Now_Cont>=3)Para_write(HIGHT_SET1,Para_read(HIGHT_NOW),0);
 					if(Now_Pat)
 					{
-						GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,0);
-						clear_page_edge(10,30); 
+						GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_NUM1 ,0);
+						clear_page_edge(12,38); 
 					}
 					else
-						GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,1);
+						GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_NUM1 ,1);
 					break;
 				case 2:
 					if(Now_Cont>=3)Para_write(HIGHT_SET2,Para_read(HIGHT_NOW),0);
 					if(Now_Pat)
 					{
-						GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,0);
-						clear_page_edge(40,30);
+						GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_NUM2 ,0);
+						clear_page_edge(42,38);
 					}
 					else
-						GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,1);
+						GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_NUM2 ,1);
 					break;
 				case 3:
 					if(Now_Cont>=3)Para_write(HIGHT_SET3,Para_read(HIGHT_NOW),0);
 					if(Now_Pat)
 					{
-						GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,0);
-						clear_page_edge(70,30);
+						GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_NUM3 ,0);
+						clear_page_edge(72,38);
 					}
 					else
-						GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,1);
+						GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_NUM3 ,1);
 					break;
 				case 4:
 					if(Now_Cont==3)Para_write(HIGHT_SET4,Para_read(HIGHT_NOW),0);
 					if(Now_Pat)
 					{
-						GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,0);
-						clear_page_edge(100,30);
+						GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_NUM4 ,0);
+						clear_page_edge(102,38);
 					}
 					else
-						GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,1);
+						GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_NUM4 ,1);
 					break;
 				default:
 					break;
@@ -528,35 +558,35 @@ void HightSave_Frame(int data)
 						sprintf(bufd,"%d%s",(int)temphight,(Para_read(MODE_UNIT))?"in":"cm");
 						GRAM_Clear(98,25,101,57);
 					}
-					GRAM_ShowString(10,8,bufd,FONT22_DEFAULT);
+					GRAM_ShowString(12,16,bufd,FONT22_DEFAULT);
 					if(Para_read(HIGHT_SET1))
 					{
-						GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,0);
-						clear_page_edge(10,30); 
+						GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_NUM1 ,0);
+						clear_page_edge(12,38); 
 					}
 					else
-						GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,1);
+						GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_NUM1 ,1);
 					if(Para_read(HIGHT_SET2))
 					{
-						GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,0);
-						clear_page_edge(40,30);
+						GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_NUM2 ,0);
+						clear_page_edge(42,38);
 					}
 					else
-						GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,1);
+						GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_NUM2 ,1);
 					if(Para_read(HIGHT_SET3))
 					{
-						GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,0);
-						clear_page_edge(70,30);
+						GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_NUM3 ,0);
+						clear_page_edge(72,38);
 					}
 					else
-						GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,1);
+						GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_NUM3 ,1);
 					if(Para_read(HIGHT_SET4))
 					{
-						GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,0);
-						clear_page_edge(100,30);
+						GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_NUM4 ,0);
+						clear_page_edge(102,38);
 					}
 					else
-						GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,1);
+						GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_NUM4 ,1);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -565,29 +595,29 @@ void HightSave_Frame(int data)
 					Creat_Frame(Main_Frame);
 					break;
 			case WM_1:
-				GRAM_ShowLattice(10,30,24,24,(const uint8_t *)Page_NUM1 ,0);
-				clear_page_edge(10,30); 
+				GRAM_ShowLattice(12,38,24,24,(const uint8_t *)Page_NUM1 ,0);
+				clear_page_edge(12,38); 
 				now_select=1;
 				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_2:
-				GRAM_ShowLattice(40,30,24,24,(const uint8_t *)Page_NUM2 ,0);
-				clear_page_edge(40,30);
+				GRAM_ShowLattice(42,38,24,24,(const uint8_t *)Page_NUM2 ,0);
+				clear_page_edge(42,38);
 				now_select=2;
 				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_3:
-				GRAM_ShowLattice(70,30,24,24,(const uint8_t *)Page_NUM3 ,0);
-				clear_page_edge(70,30);
+				GRAM_ShowLattice(72,38,24,24,(const uint8_t *)Page_NUM3 ,0);
+				clear_page_edge(72,38);
 				now_select=3;
 				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
 				break;
 			case WM_4:
-				GRAM_ShowLattice(100,30,24,24,(const uint8_t *)Page_NUM4 ,0);
-				clear_page_edge(100,30);
+				GRAM_ShowLattice(102,38,24,24,(const uint8_t *)Page_NUM4 ,0);
+				clear_page_edge(102,38);
 				now_select=4;
 				Lcd_Write_Time(READ_BK,0,3);//5s
 				Creat_Frame(HightSavetWinkle_Frame);
@@ -611,8 +641,8 @@ void SetOverError_Frame(int data)
 			case WM_CREATE:
 					clear_screen();	
 					Lcd_Write_Time(READ_BK,0,0);//5s
-					GRAM_ShowLattice(25,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
-					GRAM_ShowString(59,20,"超限",FONT22_DEFAULT);
+					GRAM_ShowLattice(35,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
+					GRAM_ShowString(69,20,"超限",FONT22_DEFAULT);
 					Lcd_Write_Time(READ_BK,1,1);//5s
 					//full_display();
 					break;
@@ -640,9 +670,9 @@ void Problem_Frame(int data)
     {
 			case WM_CREATE:
 					clear_screen();	
-					GRAM_ShowLattice(35,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
+					GRAM_ShowLattice(45,15,32,32,(const uint8_t *)Page_PROBLEM ,1);
 					sprintf(bufd,"E%02X",Para_read(PROBLEM));
-					GRAM_ShowString(69,20,bufd,FONT22_DEFAULT);
+					GRAM_ShowString(79,20,bufd,FONT22_DEFAULT);
 					break;
 			case WM_1:
 			case WM_2:
@@ -659,6 +689,10 @@ void Problem_Frame(int data)
 				if(Para_read(RELEASE)==2)
 				{
 					Creat_Frame(Reseting_Frame);
+				}
+				if(Para_read(RELEASE)==1)
+				{
+					Creat_Frame(Main_Frame);
 				}
 				break;
     }
@@ -696,7 +730,7 @@ void Ring_Frame(int data)
 							Lcd_Write_Time(REAL_T,1,20);//1s
 							ringstate++; 
 						case 3:
-							GRAM_Clear(40,15,95,31);
+							GRAM_Clear(40,15,95,33);
 							Lcd_Write_Time(REAL_T,1,20);//1s
 							ringstate=0;
 							break;

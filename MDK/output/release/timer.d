@@ -10,10 +10,10 @@
 .\output\release\timer.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\assert.h
 .\output\release\timer.o: ..\..\..\mcu\common\board_stkhc32l13x.h
 .\output\release\timer.o: ..\..\..\mcu\common\hc32l13x.h
-.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm0plus.h
-.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
-.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h
-.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
+.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\core_cm0plus.h
+.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_version.h
+.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_compiler.h
+.\output\release\timer.o: D:\KEIL5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_armcc.h
 .\output\release\timer.o: ..\..\..\mcu\common\system_hc32l13x.h
 .\output\release\timer.o: ..\..\..\driver\inc\sysctrl.h
 .\output\release\timer.o: ..\..\..\driver\inc\ddl.h

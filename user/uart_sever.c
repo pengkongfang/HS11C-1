@@ -140,13 +140,19 @@ void Uart_deal_message(uart_str *uart)
 					Para_str.mode_str.Knock_mode=uart->datbuf[5];
 					Para_str.mode_str.unit_mode=uart->datbuf[6];
 					Para_str.hight_str.top_hight=(uint16_t)uart->datbuf[7]<<8|uart->datbuf[8];
+					if(Para_str.hight_str.top_hight<980)
+						Para_str.hight_str.TopSetFlag=1;
+					
 					Para_str.hight_str.down_hight=(uint16_t)uart->datbuf[9]<<8|uart->datbuf[10];
+					if(Para_str.hight_str.top_hight>579)
+						Para_str.hight_str.DownSetFlag=1;
+					
 					Para_str.FirstPower=uart->datbuf[11];
 					Para_str.hight_str.set_hight[0]=(uint16_t)uart->datbuf[12]<<8|uart->datbuf[13];
 					Para_str.hight_str.set_hight[1]=(uint16_t)uart->datbuf[14]<<8|uart->datbuf[15];
 					Para_str.hight_str.set_hight[2]=(uint16_t)uart->datbuf[16]<<8|uart->datbuf[17];
 					Para_str.hight_str.set_hight[3]=(uint16_t)uart->datbuf[18]<<8|uart->datbuf[19];
-		break;
+					break;
 		case  UART_GETHIGHT:   
 					Para_str.hight_str.now_hight=(uint16_t)uart->datbuf[1]<<8|uart->datbuf[2];
 					break;

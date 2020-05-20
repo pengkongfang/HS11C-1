@@ -15,16 +15,16 @@
 #define LCDReset_Port	 GpioPortA
 #define LCDReset_Pin   GpioPin4
 
-#define MenuX 10
-#define MenuY 22
+#define MenuX 15
+#define MenuY 29
 
-#define CheckX MenuX+98
+#define CheckX MenuX+90
 #define CheckY MenuY+5
 
-#define arrowUpX 10
-#define arrowUpY 10
-#define arrowDownX 10
-#define arrowDownY 50
+#define arrowUpX 17
+#define arrowUpY 17
+#define arrowDownX 17
+#define arrowDownY 57
 
 
 #define StartX 5

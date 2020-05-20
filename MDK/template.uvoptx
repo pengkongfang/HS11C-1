@@ -8,7 +8,7 @@
   <Extensions>
     <cExt>*.c</cExt>
     <aExt>*.s*; *.src; *.a*</aExt>
-    <oExt>*.obj</oExt>
+    <oExt>*.obj; *.o</oExt>
     <lExt>*.lib</lExt>
     <tExt>*.txt; *.h; *.inc</tExt>
     <pExt>*.plm</pExt>
@@ -140,7 +140,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U38FF6D064155313232412057 -I0 -O206 -S1 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(0BC11477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0FlashHC32L13X_64K -FS00 -FL010000</Name>
+          <Name>-U51FF6F064977565433172067 -O206 -SF1800 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP") -D00(0BC11477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC1000 -FN1 -FF0FlashHC32L13X_64K -FS00 -FL010000</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -159,32 +159,16 @@
           <Type>0</Type>
           <LineNumber>656</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>8036</Address>
+          <Address>8244</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\user\lcd12864.c</Filename>
+          <Filename>F:\Pro\desktop_key\HC32L130_SDK\qudong\hc32l13x_ddl_Rev1.8.0 Lite\hc32l13x_ddl - 1.0\example\template\user\lcd12864.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\template\../user/lcd12864.c\656</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>402</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>6944</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\user\lcd12864.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\template\../user/lcd12864.c\402</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -686,6 +670,18 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>33</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\user\oledfont.h</PathWithFileName>
+      <FilenameWithoutPath>oledfont.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -696,7 +692,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>6</GroupNumber>
-      <FileNumber>33</FileNumber>
+      <FileNumber>34</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

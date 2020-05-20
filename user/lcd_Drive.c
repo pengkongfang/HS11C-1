@@ -35,16 +35,16 @@ void Set_Focus(Focus_Srtuct_Typdef *Focus)
 {
     if(Focus->Now_Focus==0)
 		{
-			GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+			GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 		}
 		else if(Focus->Now_Focus==Focus->Max_Focus_Num)
 		{
-			GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
+			GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
 		}
 		else
 		{
-			GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-			GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+			GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+			GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 		}
 }
 
@@ -64,12 +64,12 @@ void Increase_Focus(Focus_Srtuct_Typdef *Focus)
         GRAM_ShowString(MenuX,MenuY,Focus->Focus_Data[Focus->Now_Focus],FONT22_DEFAULT);
 				if(Focus->Now_Focus==Focus->Max_Focus_Num)
 				{
-					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
+					GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
 				}
 				else
 				{
-					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-					GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+					GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+					GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				}
     }
 		else 
@@ -94,12 +94,12 @@ void Decrease_Focus(Focus_Srtuct_Typdef *Focus)
 				if(Focus->Now_Focus==0)
 				{
 					//Focus->Now_Focus=12;
-					GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+					GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				}
 				else
 				{
-					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-					GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+					GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+					GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				}
     }
 		else

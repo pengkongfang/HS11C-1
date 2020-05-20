@@ -54,8 +54,8 @@ void Menu_Frame(int data)
 				  Set_Focus(&Menu_Frame_Foucus);
 					GetLang(&Menu_Frame_Foucus,Menufont);
 					GRAM_ShowString(MenuX,MenuY,Menu_Frame_Foucus.Focus_Data[Menu_Frame_Foucus.Now_Focus],FONT22_DEFAULT);
-					GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-					GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+					GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+					GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 					Lcd_Write_Time(READ_BK,1,3);//5s
 					break;
 			case WM_TIMEOUT:
@@ -66,8 +66,8 @@ void Menu_Frame(int data)
 			case WM_UP:
 				Lcd_Write_Time(READ_BK,1,3);//5s
 				ClearFrame();
-				GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-				GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+				GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+				GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				Menu_Frame_Foucus.Now_Focus--;
 				if(Menu_Frame_Foucus.Now_Focus<0)
 				{
@@ -78,8 +78,8 @@ void Menu_Frame(int data)
 			case WM_DOWN:
 				Lcd_Write_Time(READ_BK,1,3);//5s
 				ClearFrame();
-				GRAM_ShowLattice(10,10,16,6,(const uint8_t *)Page_ARROW_UP,1);
-				GRAM_ShowLattice(10,50,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
+				GRAM_ShowLattice(17,17,16,6,(const uint8_t *)Page_ARROW_UP,1);
+				GRAM_ShowLattice(17,57,16,6,(const uint8_t *)Page_ARROW_DOWN,1);
 				Menu_Frame_Foucus.Now_Focus++;
 				if(Menu_Frame_Foucus.Now_Focus>Menu_Frame_Foucus.Max_Focus_Num)
 				{
@@ -1055,7 +1055,7 @@ void Reseting_Frame(int data)
 					if(Para_str.FirstPower==0xbb)senddelay=1;else senddelay=0;
 					Para_str.FirstPower=0;
 					clear_screen();	
-					GRAM_ShowString(MenuX,MenuY,"请长按",FONT22_DEFAULT);
+					GRAM_ShowString(MenuX,MenuY,"请保持",FONT22_DEFAULT);
 					GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					break;
 			case WM_TIMEOUT:
@@ -1084,16 +1084,16 @@ void Reseting_Frame(int data)
 					break;
 			case WM_DWONLONG:
 					if(senddelay)
-					Uart_Send_Forward(1);
+					Uart_Send_Forward(1); 
 					else
 					Uart_Send_Reset();
 					SLH++;
 					Lcd_Write_Time(REAL_T,1,2);//5s
-					if(SLH<10)
+					if(SLH<5)
 					{
 						GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 					}
-					else if(SLH>=10&&SLH<20)
+					else if(SLH>=5&&SLH<10)
 					{
 						GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					}
@@ -1104,11 +1104,11 @@ void Reseting_Frame(int data)
 					break;
 			case WM_REALTIME:
 					SLH++;
-					if(SLH<10)
+					if(SLH<5)
 					{
 						GRAM_Clear(CheckX,CheckY-2,CheckX+16,CheckY+14);
 					}
-					else if(SLH>=10&&SLH<20)
+					else if(SLH>=5&&SLH<10)
 					{
 						GRAM_ShowLattice(CheckX,CheckY-2,16,16,(const uint8_t *)Page_DOWN,0);
 					}
